@@ -2,7 +2,9 @@
 #define LED_H
 #include "driver/gpio.h" // home/victor/.espressif/v6.1/esp-idf/components/esp_driver_gpio/include/driver
 
+#define led_azul 4 // 09/11/2026 pendiente por implementar
 #define led_rojo 5
+#define led_verde 6 // 09/11/2026 pendiente por implementar
 
 /**
  * @brief init_led ()
@@ -12,20 +14,63 @@
 esp_err_t init_led(void);
 
 /**
- * @brief blink_led Hace un toggle al pin pasado parámetro y muestra la cuenta que lleva
- * la variable cuenta_blink_led_rojo en entero decimal no signado (%u), en
- * caracter (%c) y en binario (for que convierte a binario y lo muestra en
- * en decimal en al consola). también realiza la conversion a binario, muestra el
- * binario equivalente de la cuenta a traves de la siguiente implementacion
- * TENER EN CUENTA QUE ESTE NIVEL DE DETALLE NORMALENTE NO SE LE INDICA AL USUARIO
- * //   printf("Cuenta Blink como binario: ");
-    for (int i = 7; i >= 0; i--) {
-        printf("La cuenta conversion: %d", (cuenta_blink_led_rojo >> i) & 1);
-        printf("\n");
-    }
- * @param Recibe un número de pin
- * @return ok
+ * @brief Configures the RGB LED according to timer 0 expiration.
+ *
+ * Common anode RGB leds are assigned following logic state:
+ *
+ * - R: 0
+ * - G: 1
+ * - B: 1
+ * @return ESP_OK if the operation is successful.
  */
-esp_err_t blink_led(void);
+esp_err_t DesbordadoTimer0(void);
+
+/**
+ * @brief Configures the RGB LED according to timer 1 expiration.
+ *
+ * Common anode RGB leds are assigned following logic state:
+ *
+ * - R: 1
+ * - G: 0
+ * - B: 1
+ * @return ESP_OK if the operation is successful.
+ */
+esp_err_t DesbordadoTimer1(void);
+
+/**
+ * @brief Configures the RGB LED according to timer 2 expiration.
+ *
+ * Common anode RGB leds are assigned following logic state:
+ *
+ * - R: 1
+ * - G: 1
+ * - B: 0
+ * @return ESP_OK if the operation is successful.
+ */
+esp_err_t DesbordadoTimer2(void);
+
+/**
+ * @brief Configures the RGB LED according to timer 3 expiration.
+ *
+ * Common anode RGB leds are assigned following logic state:
+ *
+ * - R: 0
+ * - G: 0
+ * - B: 1
+ * @return ESP_OK if the operation is successful.
+ */
+esp_err_t DesbordadoTimer3(void);
+
+/**
+ * @brief Configures the RGB LED according to timer 4 expiration.
+ *
+ * Common anode RGB leds are assigned following logic state:
+ *
+ * - R: 1
+ * - G: 0
+ * - B: 0
+ * @return ESP_OK if the operation is successful.
+ */
+esp_err_t DesbordadoTimer4(void);
 
 #endif

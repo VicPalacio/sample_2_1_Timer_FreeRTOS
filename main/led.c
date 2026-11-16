@@ -2,30 +2,73 @@
 #include "driver/gpio.h"
 #include "esp_log.h" // En: /home/victor/.espressif/v6.1/esp-idf/components/log/include
 
-uint8_t led_level = 0, cuenta_blink_led_rojo = 0;
-static const char *tag_A = "Timer"; // timer es el módulo donde se está usando la librería
+static uint8_t cuenta_timer_0 = 0;
+static uint8_t cuenta_timer_1 = 0;
+static uint8_t cuenta_timer_2 = 0;
+static uint8_t cuenta_timer_3 = 0;
+static uint8_t cuenta_timer_4 = 0;
 
-esp_err_t blink_led(void)
-{
-    led_level = !led_level;
-    gpio_set_level(led_rojo, led_level);
-    cuenta_blink_led_rojo++;
-    ESP_LOGI(tag_A, "Cuenta Blink como no signado decimal entero: %u", cuenta_blink_led_rojo);
-    ESP_LOGE(tag_A, "Cuenta Blink como signado decimal entero: %d", cuenta_blink_led_rojo);
-    ESP_LOGW(tag_A, "Cuenta Blink como caracter: %c", cuenta_blink_led_rojo);
-
-    //   printf("Cuenta Blink como binario: ");
-    for (int i = 7; i >= 0; i--)
-    {
-        printf("La cuenta conversion: %d", (cuenta_blink_led_rojo >> i) & 1);
-        printf("\n");
-    }
-    return ESP_OK;
-}
+static const char *tag_A = "LEDC"; // led.c es el módulo donde se está usando la librería
 
 esp_err_t init_led(void)
 {
     gpio_reset_pin(led_rojo);
-    gpio_set_direction(led_rojo, GPIO_MODE_OUTPUT);
+    gpio_set_direction(led_rojo, GPIO_MODE_INPUT_OUTPUT);
+
+    gpio_reset_pin(led_azul);
+    gpio_set_direction(led_azul, GPIO_MODE_INPUT_OUTPUT);
+
+    gpio_reset_pin(led_verde);
+    gpio_set_direction(led_verde, GPIO_MODE_INPUT_OUTPUT);
+    return ESP_OK;
+}
+
+esp_err_t DesbordadoTimer0(void)
+{
+    gpio_set_level(led_rojo, 0);  // Led activo en bajo
+    gpio_set_level(led_verde, 1); // Led activo en bajo
+    gpio_set_level(led_azul, 1);  // Led activo en bajo
+    cuenta_timer_0++;
+    ESP_LOGE(tag_A, "El timer 0 se ha desboradado: %u veces", cuenta_timer_0);
+    return ESP_OK;
+}
+
+esp_err_t DesbordadoTimer1(void)
+{
+    gpio_set_level(led_rojo, 1);  // Led activo en bajo
+    gpio_set_level(led_verde, 0); // Led activo en bajo
+    gpio_set_level(led_azul, 1);  // Led activo en bajo
+    cuenta_timer_1++;
+    ESP_LOGE(tag_A, "El timer 1 se ha desboradado: %u veces", cuenta_timer_1);
+    return ESP_OK;
+}
+
+esp_err_t DesbordadoTimer2(void)
+{
+    gpio_set_level(led_rojo, 1);  // Led activo en bajo
+    gpio_set_level(led_verde, 1); // Led activo en bajo
+    gpio_set_level(led_azul, 0);  // Led activo en bajo
+    cuenta_timer_2++;
+    ESP_LOGE(tag_A, "El timer 2 se ha desboradado: %u veces", cuenta_timer_2);
+    return ESP_OK;
+}
+
+esp_err_t DesbordadoTimer3(void)
+{
+    gpio_set_level(led_rojo, 0);  // Led activo en bajo
+    gpio_set_level(led_verde, 0); // Led activo en bajo
+    gpio_set_level(led_azul, 1);  // Led activo en bajo
+    cuenta_timer_3++;
+    ESP_LOGE(tag_A, "El timer 3 se ha desboradado: %u veces", cuenta_timer_3);
+    return ESP_OK;
+}
+
+esp_err_t DesbordadoTimer4(void)
+{
+    gpio_set_level(led_rojo, 1);  // Led activo en bajo
+    gpio_set_level(led_verde, 0); // Led activo en bajo
+    gpio_set_level(led_azul, 0);  // Led activo en bajo
+    cuenta_timer_4++;
+    ESP_LOGE(tag_A, "El timer 4 se ha desboradado: %u veces", cuenta_timer_4);
     return ESP_OK;
 }
