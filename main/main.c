@@ -26,8 +26,7 @@ uint8_t pares_array[PRUEBAS_ARRAY] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20};  // D
 uint8_t impares_array[PRUEBAS_ARRAY] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19}; // Declaración e inicializacion del array
 uint8_t resultado_suma_array[PRUEBAS_ARRAY];                                // Declaracion
 uint8_t resultado_producto_pares[PRUEBAS_ARRAY];                            // Declaracion
-
-esp_err_t multiplicar_arrays(void);
+uint8_t resultado_resta_array[PRUEBAS_ARRAY];                               // Decalracion
 
 esp_err_t set_timer(void);
 /**
@@ -69,19 +68,27 @@ void vTimerCallback(TimerHandle_t pxTimer)
         DesbordadoTimer1();
         if ((lArrayIndex == 1) & (lExpireCounters[lArrayIndex] == 10))
         {
-            product_arrays(pares_array, impares_array, resultado_suma_array, PRUEBAS_ARRAY);
+            product_arrays(pares_array, impares_array, resultado_producto_pares, PRUEBAS_ARRAY);
         }
         break;
     case 2:
         DesbordadoTimer2();
         if ((lArrayIndex == 2) & (lExpireCounters[lArrayIndex] == 10))
         {
-            printf("El timer 2 ha expirado 10 veces\n");
-            multiplicar_arrays();
+            subtracion_arrays(resultado_producto_pares, impares_array, resultado_resta_array, PRUEBAS_ARRAY);
         }
         break;
     case 3:
         DesbordadoTimer3();
+        if ((lArrayIndex == 3) & (lExpireCounters[lArrayIndex] == 10))
+        {
+            delete_array(resultado_suma_array, PRUEBAS_ARRAY);
+            delete_array(resultado_producto_pares, PRUEBAS_ARRAY);
+            delete_array(resultado_resta_array, PRUEBAS_ARRAY);
+            print_arrays(resultado_suma_array, PRUEBAS_ARRAY);
+            print_arrays(resultado_producto_pares, PRUEBAS_ARRAY);
+            print_arrays(resultado_resta_array, PRUEBAS_ARRAY);
+        }
         break;
     case 4:
         DesbordadoTimer4();
@@ -141,19 +148,3 @@ esp_err_t set_timer(void)
     }
     return ESP_OK;
 }
-
-/* esp_err_t multiplicar_arrays(void)
-{
-    uint8_t iteration = 0;
-    printf("\n");
-    ESP_LOGI(tag, "***Entra en la funcion multiplicar***");
-
-    while (iteration < PRUEBAS_ARRAY)
-    {
-        resultado_producto_pares[iteration] = pares_array[iteration] * 2;
-        printf("Indice pares_array: %d | Contenido pares_array: %d \n", (uint8_t)iteration, (uint8_t)pares_array[iteration]);
-        iteration++;
-    }
-    print_arrays(resultado_producto_pares, PRUEBAS_ARRAY);
-    return ESP_OK;
-} */

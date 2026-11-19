@@ -20,6 +20,35 @@ esp_err_t add_arrays(const uint8_t array_a[], const uint8_t array_b[], uint8_t a
     return ESP_OK;
 }
 
+esp_err_t subtracion_arrays(const uint8_t array_a[], const uint8_t array_b[], uint8_t array_result[], uint8_t size)
+{
+    uint8_t iteration = 0;
+    printf("\n");
+    ESP_LOGI(tag, "***Entra en la función restar***");
+
+    while (iteration < size)
+    {
+        array_result[iteration] = array_a[iteration] - array_b[iteration];
+        printf("Indice resultado_resta: %d | Contenido resultado_resta: %d \n", (uint8_t)iteration, (uint8_t)array_result[iteration]);
+        iteration++;
+    }
+    printf("\n");
+    return ESP_OK;
+}
+
+esp_err_t delete_array(uint8_t array[], uint8_t size)
+{
+    printf("\n");
+    ESP_LOGI(tag, "***Entra en la funcion borrar***");
+
+    for (size_t iteration = 0; iteration < size; iteration++)
+    {
+        array[iteration] = 0;
+    }
+    printf("Array borrada\n");
+    return ESP_OK;
+}
+
 esp_err_t product_arrays(const uint8_t array_a[], const uint8_t array_b[], uint8_t array_result[], uint8_t size)
 {
     uint8_t iteration = 0;
